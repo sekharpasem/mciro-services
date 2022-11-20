@@ -1,0 +1,35 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+        - id: GREET-SERVICE
+          uri: lb://GREET-SERVICE
+          predicates:
+            - Path=/greets/**
+        - id: HELLO-SERVICE
+          uri: lb://HELLO-SERVICE
+          predicates:
+            - Path=/hello/**
+
+        - id: LOG-SERVICE
+          uri: lb://LOG-SERVICE
+          predicates:
+            - Path=/log/**
+
+eureka:
+  client:
+    registry-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instanace:
+    hostname: localhost
